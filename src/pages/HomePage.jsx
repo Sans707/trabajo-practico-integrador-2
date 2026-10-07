@@ -8,35 +8,7 @@ const HomePage = () => {
 
   const articles = Array.isArray(data)
     ? data
-    : data?.articles || [];
-
-  if (isLoading) {
-    return (
-      <>
-        <Navbar />
-
-        <main className="min-h-screen flex items-center justify-center bg-gray-100">
-          <p className="text-xl font-semibold">
-            Cargando artículos...
-          </p>
-        </main>
-      </>
-    );
-  }
-
-  if (error) {
-    return (
-      <>
-        <Navbar />
-
-        <main className="min-h-screen flex items-center justify-center bg-gray-100">
-          <p className="text-red-600 font-semibold">
-            {error}
-          </p>
-        </main>
-      </>
-    );
-  }
+    : [];
 
   return (
     <>
@@ -47,7 +19,15 @@ const HomePage = () => {
           Artículos publicados
         </h1>
 
-        {articles.length === 0 ? (
+        {isLoading ? (
+          <p className="text-center text-lg font-semibold">
+            Cargando artículos...
+          </p>
+        ) : error ? (
+          <p className="text-center font-semibold text-red-600">
+            {error}
+          </p>
+        ) : articles.length === 0 ? (
           <p className="text-center text-gray-600">
             No hay artículos publicados.
           </p>
@@ -66,13 +46,24 @@ const HomePage = () => {
                   {article.excerpt || "Sin resumen"}
                 </p>
 
-                <p className="text-sm text-gray-500">
+                <p className="mb-3 text-sm text-gray-500">
                   Autor:{" "}
-                  {article.author?.alias ||
-                    article.author?.username ||
-                    article.User?.username ||
+                  {article.author?.username ||
                     "Sin autor"}
                 </p>
+
+                {article.tags?.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {article.tags.map((tag) => (
+                      <span
+                        key={tag.id}
+                        className="rounded bg-gray-200 px-2 py-1 text-sm"
+                      >
+                        {tag.name}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </article>
             ))}
           </div>

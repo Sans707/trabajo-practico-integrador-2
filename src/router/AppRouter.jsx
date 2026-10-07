@@ -14,12 +14,12 @@ import PublicRoutes from "./PublicRoutes";
 
 const AppRouter = () => {
   const isLogged =
-    localStorage.getItem("isLogged") === "true";
+    localStorage.getItem("isLogged") ===
+    "true";
 
   return (
     <BrowserRouter>
       <Routes>
-
         <Route
           path="/"
           element={
@@ -51,12 +51,15 @@ const AppRouter = () => {
           path="*"
           element={
             <Navigate
-              to={isLogged ? "/" : "/login"}
+              to={
+                isLogged
+                  ? "/"
+                  : "/login"
+              }
               replace
             />
           }
         />
-
       </Routes>
     </BrowserRouter>
   );
